@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace QuickDoc
 {
@@ -16,10 +17,10 @@ namespace QuickDoc
       else
       {
         docFolderPath = args[0];
-        if (!System.IO.Directory.Exists(args[0]))// If the directory doesn't exist, let's create it.
-          System.IO.Directory.CreateDirectory(docFolderPath);
+        if (!Directory.Exists(args[0]))// If the directory doesn't exist, let's create it.
+          Directory.CreateDirectory(docFolderPath);
 
-        if (!System.IO.File.Exists(args[1]))
+        if (!File.Exists(args[1]))
         {
           Console.WriteLine("Code File Doesn't Exist.");// If there's nothing to document, throw it back to the user.
           Environment.Exit(1);
@@ -27,6 +28,7 @@ namespace QuickDoc
         codeFilePath = args[1];// Code file exists, let's use it.
 
         var document = new DocumentationBuilder(docFolderPath, codeFilePath);// Create a new Documentation Builder for the required documentation.
+        document.CreateDocumentation();
       }
     }
 
