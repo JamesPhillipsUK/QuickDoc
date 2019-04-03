@@ -6,19 +6,27 @@ namespace QuickDoc
   {
     private static void HandleArgs(string[] args)
     {
-      if (args.Length != 2)
-        Console.WriteLine("Please pass a documentation location and a file to document.");
+      string docFolderPath, codeFilePath;
+
+      if (args.Length != 2)// If there's too many or too few arguments:
+      {
+        Console.WriteLine("Please pass a documentation location and a file to document.");// Pass it to the user.
+        Environment.Exit(1);// Exit with a non-zero exit code (failure).
+      }
       else
       {
-        if (System.IO.File.Exists(args[0]))
-          Console.WriteLine("Docs File Exists.");
-        else
-          Console.WriteLine("Docs File Doesn't Exist.");
+        docFolderPath = args[0];
+        if (!System.IO.Directory.Exists(args[0]))// If the directory doesn't exist, let's create it.
+          System.IO.Directory.CreateDirectory(docFolderPath);
 
-        if (System.IO.File.Exists(args[1]))
-          Console.WriteLine("Code File Exists.");
-        else
-          Console.WriteLine("Code File Doesn't Exist.");
+        if (!System.IO.File.Exists(args[1]))
+        {
+          Console.WriteLine("Code File Doesn't Exist.");// If there's nothing to document, throw it back to the user.
+          Environment.Exit(1);
+        }
+        codeFilePath = args[1];// Code file exists, let's use it.
+
+        var document = new DocumentationBuilder(docFolderPath, codeFilePath);// Create a new Documentation Builder for the required documentation.
       }
     }
 
