@@ -77,6 +77,10 @@ namespace QuickDoc
       return fileType;
     }
 
+    /// <summary>
+    /// Gets all head comments.
+    /// </summary>
+    /// <returns>The head comments.</returns>
     public string GetAllHeads()
     {
       string head = "\0";
@@ -158,6 +162,23 @@ namespace QuickDoc
       if (head == "\0")
         head = "No header information found.";
       return head;
+    }
+
+    /// <summary>
+    /// Gets all methods.
+    /// </summary>
+    /// <returns>The comments about methods.</returns>
+    public string GetAllMethods()
+    {
+      string methodInfo = "\0";
+      List<string> file = new List<string>(File.ReadAllLines(codeFilePath));
+      if (supportsCStyleComments)
+      {
+        
+      }
+      if (methodInfo == "\0")
+        methodInfo = "No method information found.";
+      return methodInfo;
     }
 
     public LanguageHandler(string lCodeFilePath)
