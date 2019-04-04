@@ -11,7 +11,7 @@ namespace QuickDoc
     private bool supportsCPlusPlusStyleComments = false;// - bounded by double-slash and line break.
     private bool supportsCSharpStyleComments = false;// - bounded by triple-slash and line break.
     private enum CodeTypes {CSharp, C, Java, PHP, JavaScript, None}// Languages supported by QuickDoc.
-    private string codeFilePath;
+    private readonly string codeFilePath;
     /** This sets which language rules are true for the given language. **/
     private void SetLanguageRules(int codeTypeValue)
     {
@@ -24,6 +24,7 @@ namespace QuickDoc
           break;
         case (int) CodeTypes.C:
           supportsCStyleComments = true;
+          supportsCPlusPlusStyleComments = true;
           break;
         case (int) CodeTypes.Java:
         case (int) CodeTypes.PHP:
@@ -122,9 +123,9 @@ namespace QuickDoc
           }
           //Format as XML.
           if (head == "\0")
-            head = @"<summary>\n";
+            head = "<summary>\n";
           else
-            head += @"<summary>\n";
+            head += "<summary>\n";
           string lineOfComment;
           foreach (string element in headCommentList)
           {
@@ -133,19 +134,29 @@ namespace QuickDoc
             lineOfComment = lineOfComment.Replace("* ", null);
             head += lineOfComment;
           }
-          head += @"\n</summary>";
+          head += "\n</summary>\n";
         }
       }
-      if (supportsCPlusPlusStyleComments)
-      {
-        //Look for blocks of // either at start of the program or before instance of line containing "class"
-        //format as XML
-      }
+
       if (supportsCSharpStyleComments)
       {
         //Look for /// either at start of program or the before instance of line containing "class".
+        for (int count = 0; count <= file.Length; count++)
+        {
+          string element = file[count];
+          if (element.Contains(" class "))
+            break;
+          if (element.Contains("///"))
+          {
+            if (head == "\0")
+              head = element.Replace("///", null) + "\n";
+            else
+              head += element.Replace("///", null) + "\n";
+          }
+        }
       }
-      Console.WriteLine(head);
+      if (head == "\0")
+        head = "No header information found.";
       return head;
     }
 
