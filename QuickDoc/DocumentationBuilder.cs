@@ -7,23 +7,24 @@ namespace QuickDoc
   public class DocumentationBuilder
   {
     private readonly string docFolderPath, codeFilePath;// Create instance variables of the documentation folder and the code file.
-    private readonly LanguageHandler language = new LanguageHandler();// 
+    private readonly LanguageHandler language;// 
 
     public DocumentationBuilder(string ldocFolderPath, string lcodeFilePath)// Constructor assigns the documentation folder and code file the user requires.
     {
       docFolderPath = ldocFolderPath;
       codeFilePath = lcodeFilePath;
+      language = new LanguageHandler(codeFilePath);
     }
     /** Builds the XML for the documentation. **/
     private string[] BuildXML(string codeFileName)
     {
-      string[] xml = 
+      string[] xml =
       {
         @"<?xml version=""1.0"" encoding=""UTF-8""?>",
         @"<document>",
         @"  <file name=""" + codeFileName + @""" codeType=""" + language.GetLanguage(codeFileName) + @""">",
         @"    <head>",
-        @"      ",
+        @"      " + language.GetAllHeads(),
         @"    </head>",
         @"  </file>",
         @"</document>"

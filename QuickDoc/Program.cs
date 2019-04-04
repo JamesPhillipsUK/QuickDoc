@@ -3,6 +3,9 @@ using System.IO;
 
 namespace QuickDoc
 {
+  /** 
+   * This is the main controller for QuickDoc.  Call this, and it'll handle everything else.
+   **/
   class Program
   {
     private static void HandleArgs(string[] args)
