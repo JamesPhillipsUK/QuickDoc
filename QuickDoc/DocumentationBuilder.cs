@@ -6,32 +6,38 @@ namespace QuickDoc
 {
   public class DocumentationBuilder
   {
-    private readonly string docFolderPath, codeFilePath;// Create instance variables of the documentation folder and the code file
+    private readonly string docFolderPath, codeFilePath;// Create instance variables of the documentation folder and the code file.
+    private readonly LanguageHandler language = new LanguageHandler();// 
 
     public DocumentationBuilder(string ldocFolderPath, string lcodeFilePath)// Constructor assigns the documentation folder and code file the user requires.
     {
       docFolderPath = ldocFolderPath;
       codeFilePath = lcodeFilePath;
     }
-
-    private string[] BuildXML()
+    /** Builds the XML for the documentation. **/
+    private string[] BuildXML(string codeFileName)
     {
       string[] xml = 
       {
         @"<?xml version=""1.0"" encoding=""UTF-8""?>",
         @"<document>",
-        @"",
+        @"  <file name=""" + codeFileName + @""" codeType=""" + language.GetLanguage(codeFileName) + @""">",
+        @"    <head>",
+        @"      ",
+        @"    </head>",
+        @"  </file>",
         @"</document>"
       };
       return xml;
     }
 
+    /** Creates the documentation file, and populates it accordingly. **/
     public void CreateDocumentation() 
     {
       string codeFileName = codeFilePath.Split("/").Last();
-      File.Create(docFolderPath + "/" + codeFileName + ".xml").Close();
-      string[] xml = BuildXML();
-      File.WriteAllLines(docFolderPath + "/" + codeFileName + ".xml",xml);
+      File.Create(docFolderPath + "/" + codeFileName + ".xml").Close();// Create the file.
+      string[] xml = BuildXML(codeFileName);
+      File.WriteAllLines(docFolderPath + "/" + codeFileName + ".xml",xml);// Populate the file.
     }
   }
 }
