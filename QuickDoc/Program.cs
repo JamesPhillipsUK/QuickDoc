@@ -4,10 +4,15 @@ using System.IO;
 namespace QuickDoc
 {
   /// <summary>
-  /// In C# format.  This is the main controller for QuickDoc.  Call this, and it'll handle everything else.
+  ///   This is the main controller for QuickDoc.  Call this, and it'll handle everything else.
   /// </summary>
   class Program
   {
+    /// <summary>
+    ///   Handles arguments passed to the program for the documentation folder and the file to be documented.
+    /// </summary>
+    /// <param name="args">The arguments.</param>
+
     private static void HandleArgs(string[] args)
     {
       string docFolderPath, codeFilePath;

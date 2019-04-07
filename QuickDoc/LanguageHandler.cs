@@ -34,7 +34,10 @@ namespace QuickDoc
           break;
       }
     }
-    /** Sets the language of the instance of this. **/
+    /// <summary>
+    /// Sets the language of this instance based on it's code type.
+    /// </summary>
+    /// <param name="codeType">Code type.</param>
     private void SetLanguage(int codeType)
     {
       var codeTypeValues = Enum.GetValues(typeof(CodeTypes));
@@ -44,7 +47,11 @@ namespace QuickDoc
           SetLanguageRules(codeType);
       }
     }
-    /** Gets the language of a file, and sets the language of this based on that of the file. **/
+    /// <summary>
+    /// Gets the language of a file, and sets the language of this based on that of the file.
+    /// </summary>
+    /// <returns>The language.</returns>
+    /// <param name="fileType">File type.</param>
     public string GetLanguage(string fileType)
     {
       switch (fileType.Split(".").Last())
@@ -172,10 +179,53 @@ namespace QuickDoc
     {
       string methodInfo = "\0";
       List<string> file = new List<string>(File.ReadAllLines(codeFilePath));
+      List<string> commentBuffer = new List<string>();
       if (supportsCStyleComments)
       {
-        
+        //check if there is a head comment from the first line.
+        //check if there is a class.
+        //loop through the file array from the end of the head comment block at the start of the file if there isn't a class
+        //or from the class declaration if there is
+
       }
+
+      if (supportsCSharpStyleComments)
+      {
+        //Look for /// either at start of program or the before instance of line containing "class".
+
+        while (!file[0].Contains(" class "))
+          file.RemoveAt(0);
+        for (int count = 0; count < file.Count(); count++)
+        {
+          if (file[count].Contains("///"))
+            commentBuffer.Add(file[count]);
+          else if (count > 0 && file[count - 1].Contains("///"))
+          {
+            if (!string.IsNullOrWhiteSpace(file[count]))
+            {
+              if (methodInfo == "\0")
+                methodInfo = "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
+              else
+                methodInfo += "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
+              foreach (string commentLine in commentBuffer)
+                methodInfo += commentLine.Replace("///", "\n           ");
+              methodInfo += "\n          </method>";
+            }
+            else
+            {
+              if (methodInfo == "\0")
+                methodInfo = "\n          <method>\n            <methodCall>Comment is not correctly linked to method.</methodCall>";
+              else
+                methodInfo += "\n          <method>\n            <methodCall>Comment is not correctly linked to method.</methodCall>";
+              foreach (string commentLine in commentBuffer)
+                methodInfo += commentLine.Replace("///", "\n           ");
+              methodInfo += "\n          </method>";
+            }
+            commentBuffer.Clear();
+          }
+        }
+      }
+
       if (methodInfo == "\0")
         methodInfo = "No method information found.";
       return methodInfo;
