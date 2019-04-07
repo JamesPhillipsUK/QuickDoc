@@ -12,7 +12,6 @@ namespace QuickDoc
     ///   Handles arguments passed to the program for the documentation folder and the file to be documented.
     /// </summary>
     /// <param name="args">The arguments.</param>
-
     private static void HandleArgs(string[] args)
     {
       string docFolderPath, codeFilePath;
@@ -40,6 +39,10 @@ namespace QuickDoc
       }
     }
 
+    /**
+     * The main controller for the program.  It just sends the work off to a handler function and tells the user when we're done.
+     * @param args Arguments passed by the user to the program.
+     **/   
     static void Main(string[] args)
     {
       HandleArgs(args);

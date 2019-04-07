@@ -48,7 +48,7 @@ namespace QuickDoc
       }
     }
     /// <summary>
-    /// Gets the language of a file, and sets the language of this based on that of the file.
+    ///   Gets the language of a file, and sets the language of this based on that of the file.
     /// </summary>
     /// <returns>The language.</returns>
     /// <param name="fileType">File type.</param>
@@ -85,7 +85,7 @@ namespace QuickDoc
     }
 
     /// <summary>
-    /// Gets all head comments.
+    ///   Gets all head comments.
     /// </summary>
     /// <returns>The head comments.</returns>
     public string GetAllHeads()
@@ -172,7 +172,7 @@ namespace QuickDoc
     }
 
     /// <summary>
-    /// Gets all methods.
+    ///   Gets all methods.
     /// </summary>
     /// <returns>The comments about methods.</returns>
     public string GetAllMethods()
@@ -182,12 +182,82 @@ namespace QuickDoc
       List<string> commentBuffer = new List<string>();
       if (supportsCStyleComments)
       {
+        int startPosition = 0;
         //check if there is a head comment from the first line.
+        if (file[0].Contains("/**"))
+        {
+          do
+            startPosition++;
+          while (!file[startPosition].Contains("**/"));
+        }
         //check if there is a class.
+        int lineCount = 0;
+        foreach (string line in file)
+        {
+          if (line.Contains(" class "))
+          {
+            startPosition = lineCount;
+            break;
+          }
+          lineCount++;
+        }
         //loop through the file array from the end of the head comment block at the start of the file if there isn't a class
         //or from the class declaration if there is
-
+        bool commentOpenInBuffer = false;
+        for (int count = startPosition; count < file.Count; count++)
+        {
+          if (file[count].Contains("/**") && !file[count].Contains("**/"))
+          {
+            commentBuffer.Add(file[count]);
+            commentOpenInBuffer = true;
+          }
+          else if (file[count].Contains("/**") && file[count].Contains("**/"))
+            commentBuffer.Add(file[count]);
+          else if (commentOpenInBuffer)
+          {
+            commentBuffer.Add(file[count]);
+            if (file[count].Contains("**/"))
+              commentOpenInBuffer = false;
+          }
+          else if (file[count - 1].Contains("**/"))
+          {
+            //Build the XML
+            if (!string.IsNullOrWhiteSpace(file[count]))
+            {
+              if (methodInfo == "\0")
+                methodInfo = "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
+              else
+                methodInfo += "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
+              methodInfo += "\n           <summary>";
+              foreach (string commentLine in commentBuffer)
+              {
+                //TODO: keep params safe elsewhere.
+                //TODO: keep return safe elsewhere.
+                //if ! param || return
+                methodInfo += commentLine.Replace("/**", "\n           ").Replace(" * ", "\n           ").Replace("**/", null);
+              }
+              //TODO: output params.
+              //TODO: output return.
+              methodInfo += "\n           </summary>";
+              methodInfo += "\n          </method>";
+            }
+            else
+            {
+              if (methodInfo == "\0")
+                methodInfo = "\n          <method>\n            <methodCall>Comment is not correctly linked to method.</methodCall>";
+              else
+                methodInfo += "\n          <method>\n            <methodCall>Comment is not correctly linked to method.</methodCall>";
+              foreach (string commentLine in commentBuffer)
+                methodInfo += commentLine.Replace("///", "\n           ").Replace("**/", null);
+              methodInfo += "\n          </method>";
+            }
+            commentBuffer.Clear();
+          }
+        }
       }
+
+      file = new List<string>(File.ReadAllLines(codeFilePath));
+      commentBuffer.Clear();
 
       if (supportsCSharpStyleComments)
       {

@@ -48,7 +48,7 @@ public int getX(int x)
 
 ``` C
 /** You can style your comments like this.  It doesn't tell you about parameters or returns though. **/
-bool isXTrue(bool X)
+bool isXTrue(bool x)
 {
   return x;
 }
