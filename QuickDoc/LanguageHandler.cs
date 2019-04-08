@@ -134,9 +134,9 @@ namespace QuickDoc
           }
           //Format as XML.
           if (head == "\0")
-            head = "<summary>\n";
+            head = "\n<summary>";
           else
-            head += "<summary>\n";
+            head += "\n<summary>";
           string lineOfComment;
           foreach (string element in headCommentList)
           {
@@ -160,9 +160,9 @@ namespace QuickDoc
           if (element.Contains("///"))
           {
             if (head == "\0")
-              head = element.Replace("///", null) + "\n";
+              head = element.Replace("///", "\n     ");
             else
-              head += element.Replace("///", null) + "\n";
+              head += element.Replace("///", "\n     ");
           }
         }
       }
@@ -182,6 +182,7 @@ namespace QuickDoc
       List<string> commentBuffer = new List<string>();
       if (supportsCStyleComments)
       {
+        List<string> specialCommentDataBuffer = new List<string>();
         int startPosition = 0;
         //check if there is a head comment from the first line.
         if (file[0].Contains("/**"))
@@ -225,21 +226,9 @@ namespace QuickDoc
             if (!string.IsNullOrWhiteSpace(file[count]))
             {
               if (methodInfo == "\0")
-                methodInfo = "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
+                methodInfo = $"\n          <method>\n            <methodCall>{file[count].TrimStart()}</methodCall>";
               else
-                methodInfo += "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
-              methodInfo += "\n           <summary>";
-              foreach (string commentLine in commentBuffer)
-              {
-                //TODO: keep params safe elsewhere.
-                //TODO: keep return safe elsewhere.
-                //if ! param || return
-                methodInfo += commentLine.Replace("/**", "\n           ").Replace(" * ", "\n           ").Replace("**/", null);
-              }
-              //TODO: output params.
-              //TODO: output return.
-              methodInfo += "\n           </summary>";
-              methodInfo += "\n          </method>";
+                methodInfo += $"\n          <method>\n            <methodCall>{file[count].TrimStart()}</methodCall>";
             }
             else
             {
@@ -247,10 +236,40 @@ namespace QuickDoc
                 methodInfo = "\n          <method>\n            <methodCall>Comment is not correctly linked to method.</methodCall>";
               else
                 methodInfo += "\n          <method>\n            <methodCall>Comment is not correctly linked to method.</methodCall>";
-              foreach (string commentLine in commentBuffer)
-                methodInfo += commentLine.Replace("///", "\n           ").Replace("**/", null);
-              methodInfo += "\n          </method>";
             }
+            methodInfo += "\n            <summary>";
+            foreach (string commentLine in commentBuffer)
+            {
+              if (commentLine.Contains("@param"))
+                specialCommentDataBuffer.Add(commentLine);// Keep params safe elsewhere.
+              else if (commentLine.Contains("@return"))
+                specialCommentDataBuffer.Add(commentLine);// Keep return safe elsewhere.
+              else
+              {
+                string comment = commentLine.Replace("/**", "\n           ").Replace(" * ", "\n             ").Replace("**/", null);
+                if (!string.IsNullOrWhiteSpace(comment))
+                  methodInfo += comment;
+              }
+            }
+            methodInfo += "\n            </summary>";
+            if (specialCommentDataBuffer.Any())
+            {
+              foreach(string line in specialCommentDataBuffer)
+              {
+                if (line.Contains("@param"))
+                {
+                  string paramName = line.Replace("*", null).Trim().Split(" ")[1];
+                  string paramDescription = line.Replace("*", null).Trim().Split(paramName)[1];
+                  methodInfo += $"\n            <param name=\"{paramName}\">{paramDescription}</param>";// Output params.
+                }
+                else
+                {
+                  string returnData = line.Replace("*", null).Trim().Split("@return ")[1];
+                  methodInfo += $"\n            <returns>{returnData}</return>";// Output return.
+                }
+              }
+            }
+            methodInfo += "\n          </method>";
             commentBuffer.Clear();
           }
         }
@@ -274,9 +293,9 @@ namespace QuickDoc
             if (!string.IsNullOrWhiteSpace(file[count]))
             {
               if (methodInfo == "\0")
-                methodInfo = "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
+                methodInfo = $"\n          <method>\n            <methodCall>{file[count].TrimStart()}</methodCall>";
               else
-                methodInfo += "\n          <method>\n            <methodCall>" + file[count].TrimStart() + "</methodCall>";
+                methodInfo += $"\n          <method>\n            <methodCall>{file[count].TrimStart()}</methodCall>";
               foreach (string commentLine in commentBuffer)
                 methodInfo += commentLine.Replace("///", "\n           ");
               methodInfo += "\n          </method>";
