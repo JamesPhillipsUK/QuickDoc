@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="./stylesheet.css"?>
+<document>
+  <file name="Program.cs" codeType="CSharp">
+    <header>
+      <sectionTitle>Header Information:</sectionTitle>
+      <fileName>File Name: Program.cs</fileName>
+      <fileType>File Type: CSharp</fileType>
+      <documentedInfo>Developer-Documented Information: 
+  
+      <summary>  
+        This is the main controller for QuickDoc.  Call this, and it'll handle everything else.  
+      </summary>
+      </documentedInfo>
+    </header>
+    <body>
+      <methods>
+        <sectionTitle>Methods, Functions, and Procedures</sectionTitle>
+        <documentedInfo>Developer-Documented Information: 
+
+          <method>
+            <methodCall>private static void HandleArgs(string[] args)</methodCall>    
+            <summary>    
+              Handles arguments passed to the program for the documentation folder and the file to be documented.    
+            </summary>    
+            <param name="args">The arguments.</param>
+          </method>
+          <method>
+            <methodCall>static void Main(string[] args)</methodCall>    
+            <summary>    
+              The entry point of the program, where the program control starts and ends.  It just sends the work off to a handler function and tells the user when we're done.    
+            </summary>    
+            <param name="args">The command-line arguments.</param>
+          </method>
+        </documentedInfo>
+      </methods>
+    </body>
+  </file>
+</document>

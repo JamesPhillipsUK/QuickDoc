@@ -32,6 +32,14 @@ namespace QuickDoc
           Console.WriteLine("Code File Doesn't Exist.");// If there's nothing to document, throw it back to the user.
           Environment.Exit(1);
         }
+
+        if (!File.Exists(args[0] + "/stylesheet.css"))
+        {
+          var cssBuilder = new CSSBuilder();
+          File.Create(args[0] + "/stylesheet.css").Close();// Create the file.
+          File.WriteAllLines(args[0] + "/stylesheet.css", cssBuilder.GetCSS());// Populate the file
+        }
+
         codeFilePath = args[1];// Code file exists, let's use it.
 
         var document = new DocumentationBuilder(docFolderPath, codeFilePath);// Create a new Documentation Builder for the required documentation.
