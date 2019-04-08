@@ -38,11 +38,10 @@ namespace QuickDoc
         document.CreateDocumentation();
       }
     }
-
-    /**
-     * The main controller for the program.  It just sends the work off to a handler function and tells the user when we're done.
-     * @param args Arguments passed by the user to the program.
-     **/   
+    /// <summary>
+    ///   The entry point of the program, where the program control starts and ends.  It just sends the work off to a handler function and tells the user when we're done.
+    /// </summary>
+    /// <param name="args">The command-line arguments.</param>
     static void Main(string[] args)
     {
       HandleArgs(args);
