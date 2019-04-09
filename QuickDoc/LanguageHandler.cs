@@ -98,7 +98,7 @@ namespace QuickDoc
       {// Look for slash-double-star either at start of the program or before instance of line containing "class"
         bool commentStarted = false, commentClosed = false, hasClasses = false, hasHead = false;
         int splitAt = 0;
-        for (int count = 0; count <= file.Length;count++)
+        for (int count = 0; count < file.Length; count++)
         {
           string element = file[count];
           if (element.Contains("/**"))// The start of the comment is marked by slash-double-star.
@@ -143,7 +143,9 @@ namespace QuickDoc
           {
             lineOfComment = element.Replace("/**", null);
             lineOfComment = lineOfComment.Replace("**/", null);
-            lineOfComment = lineOfComment.Replace(" * ", "       ");
+            lineOfComment = lineOfComment.Replace(" * ", "\n       ");
+            lineOfComment = lineOfComment.Replace("<", "&lt;");
+            lineOfComment = lineOfComment.Replace(">", "&gt;");
             head += lineOfComment;
           }
           head += "\n     </summary>\n";
