@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="./stylesheet.css"?>
+<document>
+  <file name="LanguageHandler.cs" codeType="CSharp">
+    <header>
+      <sectionTitle>Header Information:</sectionTitle>
+      <fileName>File Name: LanguageHandler.cs</fileName>
+      <fileType>File Type: CSharp</fileType>
+      <documentedInfo>Developer-Documented Information: 
+No header information found.
+      </documentedInfo>
+    </header>
+    <body>
+      <methods>
+        <sectionTitle>Methods, Functions, and Procedures</sectionTitle>
+        <documentedInfo>Developer-Documented Information: 
+
+          <method>
+            <methodCall>private void SetLanguageRules(int codeTypeValue)</methodCall>
+            <summary>    
+            This sets which language rules are true for the given language. 
+            </summary>
+          </method>
+          <method>
+            <methodCall>private void SetLanguage(int codeType)</methodCall>    
+            <summary>    
+              Sets the language of this instance based on it's code type.    
+            </summary>    
+            <param name="codeType">Code type.</param>
+          </method>
+          <method>
+            <methodCall>public string GetLanguage(string fileType)</methodCall>    
+            <summary>    
+              Gets the language of a file, and sets the language of this based on that of the file.    
+            </summary>    
+            <returns>The language.</returns>    
+            <param name="fileType">File type.</param>
+          </method>
+          <method>
+            <methodCall>public string GetAllHeads()</methodCall>    
+            <summary>    
+              Gets all head comments from the code and returns them in XML format.    
+            </summary>    
+            <returns>The head comments.</returns>
+          </method>
+          <method>
+            <methodCall>public string GetAllMethods()</methodCall>    
+            <summary>    
+              Gets all methods.    
+            </summary>    
+            <returns>The comments about methods.</returns>
+          </method>
+          <method>
+            <methodCall>public LanguageHandler(string lCodeFilePath)</methodCall>    
+            <summary>    
+              Initializes a new instance of the <see cref="T:QuickDoc.LanguageHandler"/> class.    
+            </summary>    
+            <param name="lCodeFilePath">Code file path.</param>
+          </method>
+        </documentedInfo>
+      </methods>
+    </body>
+  </file>
+</document>

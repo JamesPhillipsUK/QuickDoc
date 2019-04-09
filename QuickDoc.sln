@@ -30,5 +30,10 @@ Global
 		$3.IndentWidth = 2
 		$3.scope = text/plain
 		$0.StandardHeader = $4
+		$0.DotNetNamingPolicy = $5
+		$5.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.VersionControlPolicy = $6
+		description = Quick and easy multi-language code documentation engine.
+		version = 0.0.1
 	EndGlobalSection
 EndGlobal

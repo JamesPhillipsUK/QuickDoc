@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="./stylesheet.css"?>
+<document>
+  <file name="DocumentationBuilder.cs" codeType="CSharp">
+    <header>
+      <sectionTitle>Header Information:</sectionTitle>
+      <fileName>File Name: DocumentationBuilder.cs</fileName>
+      <fileType>File Type: CSharp</fileType>
+      <documentedInfo>Developer-Documented Information: 
+  
+      <summary>  
+        The Documentation Builder class.  DocumentationBuilder calls the LanguageHandler, and builds an XML document about a given file.  
+      </summary>
+      </documentedInfo>
+    </header>
+    <body>
+      <methods>
+        <sectionTitle>Methods, Functions, and Procedures</sectionTitle>
+        <documentedInfo>Developer-Documented Information: 
+
+          <method>
+            <methodCall>private string[] BuildXML(string codeFileName)</methodCall>    
+            <summary>    
+              Builds the XML for the documentation.    
+            </summary>    
+            <returns>The xml.</returns>    
+            <param name="codeFileName">Code file name.</param>
+          </method>
+          <method>
+            <methodCall>public void CreateDocumentation() </methodCall>    
+            <summary>    
+              Creates the documentation file, and populates it accordingly.    
+            </summary>
+          </method>
+        </documentedInfo>
+      </methods>
+    </body>
+  </file>
+</document>

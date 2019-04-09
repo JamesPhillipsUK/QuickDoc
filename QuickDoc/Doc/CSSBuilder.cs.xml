@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="./stylesheet.css"?>
+<document>
+  <file name="CSSBuilder.cs" codeType="CSharp">
+    <header>
+      <sectionTitle>Header Information:</sectionTitle>
+      <fileName>File Name: CSSBuilder.cs</fileName>
+      <fileType>File Type: CSharp</fileType>
+      <documentedInfo>Developer-Documented Information: 
+  
+      <summary>  
+      CSS Builder builds the CSS stylesheet file used by QuickDoc.  
+      </summary>
+      </documentedInfo>
+    </header>
+    <body>
+      <methods>
+        <sectionTitle>Methods, Functions, and Procedures</sectionTitle>
+        <documentedInfo>Developer-Documented Information: 
+        
+          <method>
+            <methodCall>public CSSBuilder()</methodCall>    
+            <summary>    
+            Initializes a new instance of the <see cref="T:QuickDoc.CSSBuilder"/> class.    
+            </summary>
+          </method>
+          <method>
+            <methodCall>public string[] GetCSS()</methodCall>    
+            <summary>    
+              Gets the CSS for the stylesheet file.    
+            </summary>    
+            <returns>The css.</returns>
+          </method>
+        </documentedInfo>
+      </methods>
+    </body>
+  </file>
+</document>
