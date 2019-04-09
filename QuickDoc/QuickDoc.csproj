@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Doc\Program.cs.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\README.md">
       <Link>README.md</Link>
     </None>
